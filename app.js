@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const config = require('./config/config');
 const certificateRoutes = require('./routes/certificateRoutes');
-
 
 const app = express();
 
@@ -12,78 +12,24 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Swagger options
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Certificate API',
-      version: '1.0.0',
-      description: 'Certificate Management System',
-    },
-    servers: [
-      {
-        url: 'https://localhost:5000',
-        description: 'Development server',
-      },
-    ],
- components: {
-  schemas: {
-    Certificate: {
-      type: 'object',
-      required: ['studentName', 'courseName'],
-      properties: {
-        certificateNo: {
-          type: 'string',
-          readOnly: true,
-          example: '29001'
-        },
-        studentName: {
-          type: 'string',
-          example: 'Enter Name'
-        },
-        courseName: {
-          type: 'string',
-          example: 'Enter Course Name'
-        },
-        startDate: {
-          type: 'string',
-          format: 'date',
-          example: 'Enter Start Date'
-        },
-        endDate: {
-          type: 'string',
-          format: 'date',
-          example: 'Enter End Date'
-        }
-      }
-    }
-  }
-}
-
-  },
-  apis: ['./routes/*.js', './controllers/*.js'],
-};
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.send('Welcome to Connect Backend');
-});
-
-const specs = swaggerJsdoc(options);
-
-// Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+// Swagger setup
+const specs = swaggerJsdoc(config.SWAGGER_OPTIONS);
+app.use(config.API_DOCS_PATH, swaggerUi.serve, swaggerUi.setup(specs));
 
 // Routes
 app.use('/api/certificates', certificateRoutes);
 
-// 404 handler
+// Default Route
+app.get('/', (req, res) => {
+  res.send('Welcome to Certificate Management API');
+});
+
+// 404
 app.use((req, res) => {
   res.status(404).json({ message: 'Not Found' });
 });
 
-// Error handler
+// Error
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });

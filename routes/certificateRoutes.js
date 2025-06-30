@@ -25,6 +25,7 @@ const certificateController = require('../controllers/certificateController');
  *               items:
  *                 $ref: '#/components/schemas/Certificate'
  */
+router.get('/', certificateController.getAllCertificates);
 
 /**
  * @swagger
@@ -40,38 +41,81 @@ const certificateController = require('../controllers/certificateController');
  *             $ref: '#/components/schemas/Certificate'
  *     responses:
  *       201:
- *         description: Certificate created
+ *         description: Certificate created successfully
+ */
+router.post('/', certificateController.createCertificate);
+
+/**
+ * @swagger
+ * /api/certificates/{id}:
+ *   get:
+ *     summary: Get a certificate by ID
+ *     tags: [Certificates]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Certificate number
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Certificate found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Certificate'
- *       400:
- *         description: Bad request
+ *       404:
+ *         description: Certificate not found
  */
+router.get('/:id', certificateController.getCertificateById);
+
+/**
+ * @swagger
+ * /api/certificates/{id}:
+ *   put:
+ *     summary: Update a certificate by ID
+ *     tags: [Certificates]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Certificate number
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Certificate'
+ *     responses:
+ *       200:
+ *         description: Certificate updated successfully
+ *       404:
+ *         description: Certificate not found
+ */
+router.put('/:id', certificateController.updateCertificate);
 
 /**
  * @swagger
  * /api/certificates/{id}:
  *   delete:
- *     summary: Delete a certificate
+ *     summary: Delete a certificate by ID
  *     tags: [Certificates]
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
+ *         description: Certificate number
  *         schema:
  *           type: string
- *         required: true
- *         description: Certificate ID
  *     responses:
  *       200:
- *         description: Certificate deleted
+ *         description: Certificate deleted successfully
  *       404:
  *         description: Certificate not found
  */
-
-// Actual routes
-router.get('/', certificateController.getAllCertificates);
-router.post('/', certificateController.createCertificate);
 router.delete('/:id', certificateController.deleteCertificate);
 
 module.exports = router;
