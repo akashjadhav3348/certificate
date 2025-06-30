@@ -18,13 +18,16 @@ function writeData(data) {
 
 module.exports = {
   getAllCertificates: () => readData(),
+
   getCertificateById: (id) => readData().find(cert => cert.certificateNo === id),
+
   addCertificate: (certificate) => {
     const certificates = readData();
     certificates.push(certificate);
     writeData(certificates);
     return certificate;
   },
+
   deleteCertificate: (id) => {
     const certificates = readData();
     const index = certificates.findIndex(cert => cert.certificateNo === id);
@@ -34,5 +37,23 @@ module.exports = {
       return deleted[0];
     }
     return null;
+  },
+
+  updateCertificate: (id, updatedData) => {
+    const certificates = readData();
+    const index = certificates.findIndex(cert => cert.certificateNo === id);
+    if (index !== -1) {
+      certificates[index] = { ...certificates[index], ...updatedData };
+      writeData(certificates);
+      return certificates[index];
+    }
+    return null;
+  },
+
+  findCertificateByStudentName: (studentName) => {
+    const certificates = readData();
+    return certificates.find(cert =>
+      cert.studentName.toLowerCase() === studentName.toLowerCase()
+    );
   }
 };

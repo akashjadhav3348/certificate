@@ -191,12 +191,6 @@ const updateCertificate = async (req, res) => {
   }
 };
 
-module.exports = {
-  getAllCertificates,
-  createCertificate,
-  deleteCertificate,
-  updateCertificate,
-};
 /**
  * @swagger
  * /api/certificates/{id}:
@@ -220,3 +214,23 @@ module.exports = {
  *       404:
  *         description: Certificate not found
  */
+const getCertificateById = async (req, res) => {
+  try {
+    const certificate = await certificateService.getCertificateById(req.params.id);
+    if (certificate) {
+      res.json(certificate);
+    } else {
+      res.status(404).json({ message: 'Certificate not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getAllCertificates,
+  getCertificateById,
+  createCertificate,
+  deleteCertificate,
+  updateCertificate
+};
