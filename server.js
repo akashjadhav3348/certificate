@@ -1,5 +1,8 @@
 const app = require('./app');
 const config = require('./config/config');
+const cors = require('cors');
+
+
 
 // Initialize data directory
 const fs = require('fs');
@@ -17,6 +20,7 @@ if (!fs.existsSync(certsPath)) {
 }
 
 // Start server
+app.use(cors());
 app.listen(config.PORT, () => {
   console.log(`🚀 Server running at http://localhost:${config.PORT}`);
   console.log(`📘 Swagger UI at http://localhost:${config.PORT}${config.API_DOCS_PATH}`);

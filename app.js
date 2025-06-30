@@ -5,6 +5,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const certificateRoutes = require('./routes/certificateRoutes');
 
+
 const app = express();
 
 // Middleware
@@ -63,6 +64,7 @@ const options = {
   },
   apis: ['./routes/*.js', './controllers/*.js'],
 };
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Welcome to Connect Backend');
