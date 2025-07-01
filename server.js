@@ -15,5 +15,5 @@ if (!fs.existsSync(certPath)) {
 
 app.listen(config.PORT, () => {
   console.log(`🚀 Server running at http://localhost:${config.PORT}`);
-  console.log(`📘 Swagger UI at http://localhost:${config.PORT}${config.API_DOCS_PATH}`);
+  console.log(`📘 Swagger UI at https://localhost:${config.PORT}${config.API_DOCS_PATH}`);
 });
