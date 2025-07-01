@@ -8,9 +8,11 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000',
-        description: 'Development server',
+        url: "https://certificate-9oer.onrender.com", // ✅ LIVE URL
       },
+      {
+        url: "http://localhost:5000", // Optional: local dev
+      }
     ],
     components: {
       schemas: {
